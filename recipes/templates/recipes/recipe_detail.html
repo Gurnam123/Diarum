@@ -29,14 +29,14 @@
       var map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: nums,
+        center: swappedNums,
         zoom: 12
       });
       console.log(nums);
       //console.log(loc[1])
       //console.log(loc[0])
       new mapboxgl.Marker()
-        .setLngLat(nums)
+        .setLngLat(swappedNums)
         .addTo(map);
     </script>
 
