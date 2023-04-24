@@ -1,0 +1,41 @@
+{% extends "recipes/base.html" %}
+<!-- -->
+{% load crispy_forms_tags %}
+<!-- -->
+{% block content %}
+{% load mapbox_location_field_tags %} 
+{% location_field_includes %}
+{% include_jquery %}
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+<body>
+  <!-- <div id='map' style='width: 400px; height: 300px;'></div>
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZ3VybmFtIiwiYSI6ImNsZ291YnJzbjBwNmgzcHFrZjY2dWRyNTgifQ.g2UGamC_vlOY6plfWpU6Rg';
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11'
+    });
+  </script> -->
+  
+<div class="container">
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">Add Entry</legend>
+      {{ form|crispy }} {{ form.media }}
+
+    </fieldset>
+    <div class="form-group py-3">
+      <input class="btn btn-outline-primary" type="submit" value="Save" />
+    </div>
+  </form>
+  <div class="border-top pt-3">
+    <a class="text-muted" href="{% url 'recipes-home' %}"
+      >Cancel</a
+    >
+  </div>
+</div>
+</body>
+<!-- -->
+{% endblock content %}

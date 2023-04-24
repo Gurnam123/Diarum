@@ -1,0 +1,26 @@
+{% extends "recipes/base.html" %}
+<!-- -->
+{% block content %}
+<form method="get" action="{% url 'recipes-search' %}">
+    <input type="text" name="q" placeholder="Search recipes...">
+    <button type="submit">Search</button>
+</form>
+<style>
+    a{
+        color:black;
+        text-decoration: none;
+    }
+</style>
+
+<h4>Search Results</h4>
+<ul>
+    {% for recipe in recipes %}
+        <div class="recipe">
+            <h6><a href="{% url 'recipes-detail' recipe.pk %}" class="card-link">{{ recipe.title }}</a></h6>
+            <p>{{ recipe.description }}</p>
+        </div>
+    {% endfor %}
+</ul> 
+
+<!-- -->
+{% endblock content %}

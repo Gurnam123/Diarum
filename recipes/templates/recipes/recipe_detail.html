@@ -1,0 +1,56 @@
+{% extends "recipes/base.html" %}
+<!-- -->
+{% block content %}
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+<body>
+<h1>Entry # {{object.id}}</h1>
+<div class="card my-4">
+  <div class="card-body">
+    <h5 class="card-title">{{ object.title }}</h5>
+    {% if object.image %}
+    <img  src = {{object.image.url}} style="max-width: 450px; max-height: 450px"/>
+    {% endif %}
+    <h6 class="card-subtitle mb-2 text-muted">{{ object.author }}</h6>
+    <p class="card-text">{{ object.description }}</p>
+    <div id='map' style='width: 400px; height: 300px;'></div>
+    <p>{{object.location}}</p>
+    
+    <div id="map_div" data-object-id="{{ object.location }}"></div>
+
+    <script>
+     mapboxgl.accessToken = 'pk.eyJ1IjoiZ3VybmFtIiwiYSI6ImNsZ291YnJzbjBwNmgzcHFrZjY2dWRyNTgifQ.g2UGamC_vlOY6plfWpU6Rg';
+      var loc = document.getElementById("map_div").getAttribute("data-object-id");
+      let str = loc;
+      let substrings = str.substring(1, str.length-1).split(",");
+      let nums = substrings.map(substring => parseFloat(substring));
+      let [num1, num2] = nums;
+      let swappedNums = [num2, num1];
+      var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: nums,
+        zoom: 12
+      });
+      console.log(nums);
+      //console.log(loc[1])
+      //console.log(loc[0])
+      new mapboxgl.Marker()
+        .setLngLat(nums)
+        .addTo(map);
+    </script>
+
+    <h6 class="card-subtitle mb-2 text-muted">
+      {{ object.updated_at|date:"F d, Y" }}
+    </h6>
+  </div>
+</div>
+{% if object.author == user or user.is_staff %}
+<div class="col-4">
+    <a class="btn btn-outline-info" href="{% url 'recipes-update' object.id %}">Update</a>
+    <a class="btn btn-outline-danger" href="{% url 'recipes-delete' object.id %}">Delete</a>
+</div>
+{% endif %}
+<!-- -->
+{% endblock content %}
+</body>
