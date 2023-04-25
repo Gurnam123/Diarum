@@ -7,6 +7,7 @@ from django.db.models import Q
 from . import models
 from .forms import RecipeForm
 from django.contrib.auth.decorators import login_required
+from recipes.utils import get_random_quote
 
 
 class RecipeListView(LoginRequiredMixin, ListView):
@@ -15,12 +16,25 @@ class RecipeListView(LoginRequiredMixin, ListView):
     template_name = 'recipes/home.html'
     context_object_name = 'recipes'
 
+    # def get_queryset(self):
+    #     # get the currently logged in user
+    #     user = self.request.user
+
+    #     # return the queryset of recipes for the currently logged in user
+    #     return self.model.objects.filter(author=user)
     def get_queryset(self):
         # get the currently logged in user
         user = self.request.user
 
         # return the queryset of recipes for the currently logged in user
         return self.model.objects.filter(author=user)
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get the default context dictionary
+        context = super().get_context_data(**kwargs)
+
+        # Add an additional string context to the context dictionary
+        context['quote'] = get_random_quote()
 
 
 def home(request):
