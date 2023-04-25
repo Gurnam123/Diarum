@@ -7,7 +7,7 @@ from django.db.models import Q
 from . import models
 from .forms import RecipeForm
 from django.contrib.auth.decorators import login_required
-from recipes.utils import get_random_quote
+from .utils import get_random_quote
 
 
 class RecipeListView(LoginRequiredMixin, ListView):
